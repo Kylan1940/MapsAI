@@ -10,6 +10,8 @@ interface SearchBarProps {
   onSearch: () => void;
   loading: boolean;
   language: "id" | "en";
+  maxResults: number;
+  onMaxResultsChange: (value: number) => void;
 }
 
 export default function SearchBar({
@@ -18,6 +20,8 @@ export default function SearchBar({
   onSearch,
   loading,
   language,
+  maxResults,
+  onMaxResultsChange,
 }: SearchBarProps) {
   const t = language === "id" ? id : en;
 
@@ -58,6 +62,22 @@ export default function SearchBar({
             </>
           )}
         </button>
+      </div>
+
+      <div className="mt-3 flex items-center justify-center gap-2">
+        <label htmlFor="max-results" className="text-xs font-medium text-[#3F5147]">
+          {language === "id" ? "Maks. hasil" : "Max results"}
+        </label>
+        <input
+          id="max-results"
+          type="number"
+          min={1}
+          max={50}
+          value={maxResults}
+          onChange={(e) => onMaxResultsChange(e.target.valueAsNumber)}
+          className="w-16 rounded-lg border border-[#0E4A34]/15 bg-white/80 px-2 py-1 text-center text-xs font-semibold text-[#12291F] focus:outline-none focus:ring-2 focus:ring-[#0E4A34]/40"
+        />
+        <span className="text-xs text-[#3F5147]/70">(1–50)</span>
       </div>
     </section>
   );

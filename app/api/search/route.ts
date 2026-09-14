@@ -58,7 +58,7 @@ export async function POST(request: Request) {
 
   try {
 
-    const { prompt, userLocation, language } = await request.json();
+    const { prompt, userLocation, language, maxResultCount } = await request.json();
     selectedLanguage = typeof language === "string" ? language : undefined;
 
     //console.log("PROMPT:", prompt);
@@ -223,9 +223,9 @@ PROMPT USER:
 
     const places = await searchPlaces({
       query: aiResult,
-
       userLocation: userLocation || null,
       language: selectedLanguage as "id" | "en",
+      maxResultCount: maxResultCount || 20,
     });
 
     //console.log("JUMLAH TEMPAT:", places.length);

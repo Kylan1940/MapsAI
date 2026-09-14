@@ -20,7 +20,6 @@ interface Place {
   };
 
   formattedAddress?: string;
-
   rating?: number;
 
   priceRange?: {
@@ -47,12 +46,9 @@ interface Place {
   };
 
   googleMapsUri?: string;
-
   userRatingCount?: number;
-
   nationalPhoneNumber?: string;
   internationalPhoneNumber?: string;
-
   websiteUri?: string;
 }
 
@@ -77,9 +73,16 @@ export default function Home() {
     hasWebsite: false,
   });
   const [language, setLanguage] = useState<"id" | "en">("en");
-  const t = language === "id"
-    ? id
-    : en;
+  const [maxResults, setMaxResults] = useState(20);
+  const t = language === "id" ? id : en;
+
+  function handleMaxResultsChange(value: number) {
+    if (Number.isNaN(value)) {
+      setMaxResults(1);
+      return;
+    }
+    setMaxResults(Math.min(Math.max(Math.round(value), 1), 50));
+  }
 
   function toggleFilter(key: keyof PlaceFilters) {
     setFilters((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -166,6 +169,7 @@ export default function Home() {
           prompt,
           userLocation: currentLocation,
           language,
+          maxResultCount: maxResults,
         }),
       });
 
@@ -384,6 +388,8 @@ export default function Home() {
           onSearch={handleSearch}
           loading={loading}
           language={language}
+          maxResults={maxResults}
+          onMaxResultsChange={handleMaxResultsChange}
         />
       </div>
 
