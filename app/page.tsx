@@ -11,6 +11,7 @@ import ErrorAlert from "@/app/components/ErrorAlert";
 import ResultsHeader from "@/app/components/ResultsHeader";
 import FilterBar, { PlaceFilters } from "@/app/components/FilterBar";
 import PlaceCard from "@/app/components/PlaceCard";
+import DownloadCsvButton from "@/app/components/CSVButton";
 import en from "./messages/en";
 import id from "./messages/id";
 
@@ -375,7 +376,6 @@ export default function Home() {
   });
 
   return (
-    
     <main className="min-h-screen bg-linear-to-b from-[#F4FADC] via-[#F7FCE8] to-white">
       <Header language={language} onLanguageChange={setLanguage} />
 
@@ -406,7 +406,9 @@ export default function Home() {
           </div>
         )}
 
-        {!loading && places.length === 0 && !error && <EmptyState language={language} />}
+        {!loading && places.length === 0 && !error && (
+          <EmptyState language={language} />
+        )}
 
         {places.length > 0 && (
           <>
@@ -429,6 +431,14 @@ export default function Home() {
               totalCount={places.length}
               language={language}
             />
+
+            <div className="mt-3">
+              <DownloadCsvButton
+                places={sortedPlaces}
+                formattedPrice={(place) => formatPriceRange(place.priceRange)}
+                language={language}
+              />
+            </div>
 
             {sortedPlaces.length === 0 ? (
               <div className="mt-8 flex flex-col items-center justify-center rounded-[22px] border border-dashed border-[#0E4A34]/20 bg-white/50 px-6 py-14 text-center">
