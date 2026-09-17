@@ -33,7 +33,7 @@ export default function Hero({ language }: HeroProps) {
   return (
     <section className="mx-auto max-w-205 px-5 pb-10 pt-14 text-center md:pt-20">
       <h1 className="flex flex-wrap items-center justify-center gap-x-1 gap-y-1 font-display text-[38px] font-black leading-[0.95] tracking-tight text-[#12291F] sm:text-[52px] md:text-[64px]">
-        <span>Google</span>
+        {/* <span>Google</span> */}
         <span>Maps</span>
         <span className="relative ml-1 inline-flex items-center rounded-2xl bg-linear-to-br from-[#0E4A34] to-[#123F2B] px-3 text-white shadow-[0_8px_20px_rgba(14,74,52,0.35)]">
           AI

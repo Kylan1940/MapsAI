@@ -27,10 +27,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Google Maps AI",
-  description: "Google Maps AI adalah aplikasi web yang memanfaatkan kecerdasan buatan untuk membantu pengguna menemukan tempat dengan lebih mudah dan cepat. Dengan menggunakan bahasa natural, pengguna dapat mencari tempat yang sesuai dengan kebutuhan mereka.",
+  title: "MapsAI",
+  description: "An AI-powered place discovery platform that helps users find and explore any locations using natural language.",
   keywords: [
-    "Google Maps AI",
+    "MapsAI",
     "aplikasi web",
     "kecerdasan buatan",
     "bahasa natural",

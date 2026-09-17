@@ -34,7 +34,7 @@ export default function Header({ language, onLanguageChange }: HeaderProps) {
             <MapPin size={18} strokeWidth={2.5} aria-hidden="true" />
           </span>
           <span className="font-display text-[18px] font-semibold tracking-tight md:text-[20px]">
-            GoogleMaps <span className="text-[#C8E85A]">AI</span>
+            Maps <span className="text-[#C8E85A]">AI</span>
           </span>
         </Link>
 

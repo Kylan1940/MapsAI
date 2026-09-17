@@ -20,7 +20,7 @@ export default function EmptyState({ language }: EmptyStateProps) {
       <p className="mt-2 max-w-90 text-sm leading-relaxed text-[#3F5147]">
         {t.emptyStateDescription}{" "}
         <a
-          href="https://github.com/Kylan1940/GoogleMapsAI/issues/"
+          href="https://github.com/Kylan1940/MapsAI/issues/"
           target="_blank"
           rel="noopener noreferrer"
           className="text-[#0E4A34] underline hover:no-underline"

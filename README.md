@@ -10,4 +10,4 @@
 [Donate on Ko-Fi](https://ko-fi.com/Kylan1940)
 
 # LICENSE
-[Apache-2.0](https://github.com/Kylan1940/GoogleMapsAI/blob/main/README.md)
+[Apache-2.0](https://github.com/Kylan1940/MapsAI/blob/main/README.md)
