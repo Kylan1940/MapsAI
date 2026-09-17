@@ -38,9 +38,7 @@ interface DownloadCsvButtonProps {
 
 function escapeCell(value: string | number | undefined | null) {
   if (value === undefined || value === null) return '""';
-
   const text = String(value).replace(/"/g, '""');
-
   return `"${text}"`;
 }
 
@@ -98,11 +96,9 @@ export default function DownloadCsvButton({
             ? closedLabel
             : unknownLabel;
 
-      const hours =
-        place.regularOpeningHours?.weekdayDescriptions?.join(" | ") ?? "";
+      const hours =  place.regularOpeningHours?.weekdayDescriptions?.join(" | ") ?? "";
 
-      const phone =
-        place.nationalPhoneNumber || place.internationalPhoneNumber || "";
+      const phone = place.nationalPhoneNumber || place.internationalPhoneNumber || "";
 
       return [
         place.displayName?.text ?? "",
@@ -119,11 +115,11 @@ export default function DownloadCsvButton({
         place.location?.longitude ?? "",
       ]
         .map(escapeCell)
-        .join(",");
+        .join(";");
     });
 
     // BOM supaya Excel membaca UTF-8 dengan benar
-    const csv = "\uFEFF" + [headers.map(escapeCell).join(","), ...rows].join("\r\n");
+    const csv = "\uFEFF" + [headers.map(escapeCell).join(";"), ...rows].join("\r\n");
 
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
@@ -132,7 +128,7 @@ export default function DownloadCsvButton({
 
     const link = document.createElement("a");
     link.href = url;
-    link.download = `googlemaps-ai-${date}.csv`;
+    link.download = `maps-ai-${date}.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
