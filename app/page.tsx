@@ -77,6 +77,41 @@ export default function Home() {
   const [maxResults, setMaxResults] = useState(20);
   const t = language === "id" ? id : en;
 
+  // ANTI DEBUG
+  useEffect(() => {
+    const threshold = 160;
+
+    const checkDevTools = () => {
+      const widthDiff = window.outerWidth - window.innerWidth;
+      const heightDiff = window.outerHeight - window.innerHeight;
+
+      if (widthDiff > threshold || heightDiff > threshold) {
+        document.body.innerHTML = `
+        <div style="
+          min-height:100vh;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-family:Arial,sans-serif;
+          text-align:center;
+          padding:24px;
+        ">
+          <div>
+            <h1>Developer Tools Detected</h1>
+            <p>Please close Developer Tools to continue.</p>
+          </div>
+        </div>
+      `;
+      }
+    };
+
+    window.addEventListener("resize", checkDevTools);
+
+    return () => {
+      window.removeEventListener("resize", checkDevTools);
+    };
+  }, []);
+
   function handleMaxResultsChange(value: number) {
     if (Number.isNaN(value)) {
       setMaxResults(1);
@@ -296,11 +331,10 @@ export default function Home() {
   });
 
   const sortedPlaces = [...filteredPlaces].sort((a, b) => {
-    
     if (sortBy === "relevance") {
       return 0;
     }
-    
+
     if (sortBy === "distance") {
       if (!userLocation) {
         return 0;
