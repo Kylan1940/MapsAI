@@ -76,39 +76,27 @@ export default function Home() {
   const [language, setLanguage] = useState<"id" | "en">("en");
   const [maxResults, setMaxResults] = useState(20);
   const t = language === "id" ? id : en;
+  const [debugMode, setDebugMode] = useState(false);
 
-  // ANTI DEBUG
   useEffect(() => {
-    const threshold = 160;
+    const detectDevTools = () => {
+      const start = performance.now();
 
-    const checkDevTools = () => {
-      const widthDiff = window.outerWidth - window.innerWidth;
-      const heightDiff = window.outerHeight - window.innerHeight;
+      debugger;
 
-      if (widthDiff > threshold || heightDiff > threshold) {
-        document.body.innerHTML = `
-        <div style="
-          min-height:100vh;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          font-family:Arial,sans-serif;
-          text-align:center;
-          padding:24px;
-        ">
-          <div>
-            <h1>Developer Tools Detected</h1>
-            <p>Please close Developer Tools to continue.</p>
-          </div>
-        </div>
-      `;
+      const elapsed = performance.now() - start;
+
+      if (elapsed > 100) {
+        setDebugMode(true);
       }
     };
 
-    window.addEventListener("resize", checkDevTools);
+    detectDevTools();
+
+    const interval = setInterval(detectDevTools, 1000);
 
     return () => {
-      window.removeEventListener("resize", checkDevTools);
+      clearInterval(interval);
     };
   }, []);
 
@@ -408,6 +396,20 @@ export default function Home() {
 
     return 0;
   });
+
+  if (debugMode) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-white px-6 text-center">
+        <div>
+          <h1 className="text-2xl font-bold">Developer Tools Detected</h1>
+
+          <p className="mt-2 text-gray-600">
+            Please close Developer Tools to continue.
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-linear-to-b from-[#F4FADC] via-[#F7FCE8] to-white">
