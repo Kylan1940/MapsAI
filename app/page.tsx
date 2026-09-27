@@ -82,7 +82,8 @@ export default function Home() {
     const detectDevTools = () => {
       const start = performance.now();
 
-      debugger;
+      // eslint-disable-next-line no-new-func
+      new Function("debugger")();
 
       const elapsed = performance.now() - start;
 
@@ -271,9 +272,7 @@ export default function Home() {
 
       {
         enableHighAccuracy: true,
-
         timeout: 10000,
-
         maximumAge: 60000,
       },
     );
