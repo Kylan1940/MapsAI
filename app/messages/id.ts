@@ -5,7 +5,7 @@ export default {
   searching: "Mencari tempat...",
   heroDescription: "Temukan tempat terbaik menggunakan bahasa natural dan dapatkan hasil dari Google Maps secara instan.",
   heroQueries: [
-    { title: "Coffee Shop terdekat", location: "Semarang" },
+    { title: "Coffee Shop termurah", location: "Semarang" },
     { title: "Barbershop termurah", location: "Jakarta" },
     { title: "Rumah makan terbaik", location: "Yogyakarta" },
     { title: "Tempat wisata populer", location: "Bandung" },
