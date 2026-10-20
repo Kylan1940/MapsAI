@@ -12,6 +12,8 @@ import ResultsHeader from "@/app/components/ResultsHeader";
 import FilterBar, { PlaceFilters } from "@/app/components/FilterBar";
 import PlaceCard from "@/app/components/PlaceCard";
 import DownloadCsvButton from "@/app/components/CSVButton";
+import AdBanner from "@/app/components/AdBanner";
+import AdNative from "@/app/components/AdNative";
 import en from "./messages/en";
 import id from "./messages/id";
 
@@ -75,31 +77,10 @@ export default function Home() {
   });
   const [language, setLanguage] = useState<"id" | "en">("en");
   const [maxResults, setMaxResults] = useState(20);
+  const [showAdPopup, setShowAdPopup] = useState(false);
+  const [adClicked, setAdClicked] = useState(false);
+  const AD_LINK = "https://stockingsfiddlesophisticated.com/ak9ghbk9?key=b54edb1520a19503aafeceac1d0f7928";
   const t = language === "id" ? id : en;
-  const [debugMode, setDebugMode] = useState(false);
-
-  useEffect(() => {
-    const detectDevTools = () => {
-      const start = performance.now();
-
-      // eslint-disable-next-line no-new-func
-      new Function("debugger")();
-
-      const elapsed = performance.now() - start;
-
-      if (elapsed > 100) {
-        setDebugMode(true);
-      }
-    };
-
-    detectDevTools();
-
-    const interval = setInterval(detectDevTools, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   function handleMaxResultsChange(value: number) {
     if (Number.isNaN(value)) {
@@ -202,8 +183,8 @@ export default function Home() {
 
       if (data.requiresLocation && !currentLocation) {
         setPendingSearch(true);
-        setShowLocationPopup(true);
-
+        setShowLocationPopup(false);
+        setShowAdPopup(true);
         return;
       }
 
@@ -223,6 +204,30 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function handleSearchTrigger() {
+    if (!prompt.trim()) return;
+    setAdClicked(false);
+    setPendingSearch(false);
+    setShowLocationPopup(false);
+    setShowAdPopup(true);
+  }
+
+  function handleAdLinkClick() {
+    setAdClicked(true);
+  }
+
+  function handleAdContinue() {
+    if (!adClicked) return;
+    setShowAdPopup(false);
+
+    if (pendingSearch) {
+      setShowLocationPopup(true);
+      return;
+    }
+
+    handleSearch();
   }
 
   function handleAllowLocation() {
@@ -247,13 +252,12 @@ export default function Home() {
 
         if (pendingDistanceSort) {
           setSortBy("distance");
-
           setPendingDistanceSort(false);
         }
 
         if (pendingSearch) {
           setPendingSearch(false);
-
+          setShowAdPopup(false);
           handleSearch(location);
         }
       },
@@ -396,20 +400,6 @@ export default function Home() {
     return 0;
   });
 
-  if (debugMode) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-white px-6 text-center">
-        <div>
-          <h1 className="text-2xl font-bold">Developer Tools Detected</h1>
-
-          <p className="mt-2 text-gray-600">
-            Please close Developer Tools to continue.
-          </p>
-        </div>
-      </main>
-    );
-  }
-
   return (
     <main className="min-h-screen bg-linear-to-b from-[#F4FADC] via-[#F7FCE8] to-white">
       <Header language={language} onLanguageChange={setLanguage} />
@@ -420,7 +410,7 @@ export default function Home() {
         <SearchBar
           prompt={prompt}
           onPromptChange={setPrompt}
-          onSearch={handleSearch}
+          onSearch={handleSearchTrigger}
           loading={loading}
           language={language}
           maxResults={maxResults}
@@ -504,6 +494,11 @@ export default function Home() {
                       language={language}
                     />
                   </div>
+                  <AdBanner
+                    adKey="c9459ad6adf2ad0d35f1b9345e3c0f84"
+                    src="https://bicea.org/22/c9459ad6adf2ad0d35f1b9345e3c0f84"
+                    language={language}
+                  />
                 </div>
 
                 <div className="mt-8 grid grid-cols-1 items-start gap-5 md:grid-cols-2">
@@ -517,12 +512,59 @@ export default function Home() {
                       language={language}
                     />
                   ))}
+                  <AdNative
+                    adKey="b037df3e2680e345f0f3a0171be99888"
+                    src="https://bicea.org/21/b037df3e2680e345f0f3a0171be99888"
+                    language={language}
+                    className="md:col-span-2"
+                  />
                 </div>
               </>
             )}
           </>
         )}
       </section>
+
+      {showAdPopup && (
+        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 px-5 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-3xl border border-black/5 bg-white p-7 text-center shadow-2xl">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#E8F5D2] text-2xl">
+              🔗
+            </div>
+
+            <h2 className="mt-5 text-xl font-bold text-[#123524]">
+              {language === "id" ? "Satu langkah lagi" : "One more step"}
+            </h2>
+
+            <p className="mt-3 text-sm leading-6 text-[#607065]">
+              {language === "id"
+                ? "Buka halaman pendukung lalu lanjutkan pencarian kamu."
+                : "Open the support page, then continue your search."}
+            </p>
+
+            <a
+              href={AD_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleAdLinkClick}
+              className="mt-5 flex w-full items-center justify-center rounded-xl border border-[#0E4A34]/20 bg-[#F4FADC] px-4 py-3 text-sm font-semibold text-[#0E4A34] transition hover:bg-[#E8F5D2]"
+            >
+              {language === "id" ? "Buka Link" : "Open Link"}
+            </a>
+
+            <div className="mt-3">
+              <button
+                type="button"
+                onClick={handleAdContinue}
+                disabled={!adClicked}
+                className="w-full rounded-xl bg-[#0E4A34] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#123E2D] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {language === "id" ? "Lanjutkan Pencarian" : "Continue Search"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showLocationPopup && (
         <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 px-5 backdrop-blur-sm">

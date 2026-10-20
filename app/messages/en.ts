@@ -6,7 +6,7 @@ export default {
   heroDescription: "Find the best places using natural language and get Google Maps results instantly.",
   heroQueries: [
     { title: "Cheapest coffee shop", location: "Jakarta" },
-    { title: "Best barbershop", location: "Paris" },
+    { title: "Best barbershop", location: "Paris" },  
     { title: "Best restaurant", location: "Sydney" },
     { title: "Popular tourist spot", location: "Tokyo" },
   ],
