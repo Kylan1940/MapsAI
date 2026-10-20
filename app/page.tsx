@@ -77,9 +77,6 @@ export default function Home() {
   });
   const [language, setLanguage] = useState<"id" | "en">("en");
   const [maxResults, setMaxResults] = useState(20);
-  const [showAdPopup, setShowAdPopup] = useState(false);
-  const [adClicked, setAdClicked] = useState(false);
-  const AD_LINK = "https://stockingsfiddlesophisticated.com/ak9ghbk9?key=b54edb1520a19503aafeceac1d0f7928";
   const t = language === "id" ? id : en;
 
   function handleMaxResultsChange(value: number) {
@@ -183,8 +180,8 @@ export default function Home() {
 
       if (data.requiresLocation && !currentLocation) {
         setPendingSearch(true);
-        setShowLocationPopup(false);
-        setShowAdPopup(true);
+        setShowLocationPopup(true);
+
         return;
       }
 
@@ -204,30 +201,6 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  }
-
-  function handleSearchTrigger() {
-    if (!prompt.trim()) return;
-    setAdClicked(false);
-    setPendingSearch(false);
-    setShowLocationPopup(false);
-    setShowAdPopup(true);
-  }
-
-  function handleAdLinkClick() {
-    setAdClicked(true);
-  }
-
-  function handleAdContinue() {
-    if (!adClicked) return;
-    setShowAdPopup(false);
-
-    if (pendingSearch) {
-      setShowLocationPopup(true);
-      return;
-    }
-
-    handleSearch();
   }
 
   function handleAllowLocation() {
@@ -257,7 +230,6 @@ export default function Home() {
 
         if (pendingSearch) {
           setPendingSearch(false);
-          setShowAdPopup(false);
           handleSearch(location);
         }
       },
@@ -410,7 +382,7 @@ export default function Home() {
         <SearchBar
           prompt={prompt}
           onPromptChange={setPrompt}
-          onSearch={handleSearchTrigger}
+          onSearch={handleSearch}
           loading={loading}
           language={language}
           maxResults={maxResults}
@@ -524,47 +496,6 @@ export default function Home() {
           </>
         )}
       </section>
-
-      {showAdPopup && (
-        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 px-5 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-3xl border border-black/5 bg-white p-7 text-center shadow-2xl">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#E8F5D2] text-2xl">
-              🔗
-            </div>
-
-            <h2 className="mt-5 text-xl font-bold text-[#123524]">
-              {language === "id" ? "Satu langkah lagi" : "One more step"}
-            </h2>
-
-            <p className="mt-3 text-sm leading-6 text-[#607065]">
-              {language === "id"
-                ? "Buka halaman pendukung lalu lanjutkan pencarian kamu."
-                : "Open the support page, then continue your search."}
-            </p>
-
-            <a
-              href={AD_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={handleAdLinkClick}
-              className="mt-5 flex w-full items-center justify-center rounded-xl border border-[#0E4A34]/20 bg-[#F4FADC] px-4 py-3 text-sm font-semibold text-[#0E4A34] transition hover:bg-[#E8F5D2]"
-            >
-              {language === "id" ? "Buka Link" : "Open Link"}
-            </a>
-
-            <div className="mt-3">
-              <button
-                type="button"
-                onClick={handleAdContinue}
-                disabled={!adClicked}
-                className="w-full rounded-xl bg-[#0E4A34] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#123E2D] disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {language === "id" ? "Lanjutkan Pencarian" : "Continue Search"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {showLocationPopup && (
         <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 px-5 backdrop-blur-sm">
