@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { MapPin } from "lucide-react";
+import Image from "next/image";
 
 interface HeaderProps {
   language: "id" | "en";
@@ -59,6 +60,17 @@ export default function Header({ language, onLanguageChange }: HeaderProps) {
               <span className="fi fi-us rounded-sm"></span>
             </button>
           </div>
+
+          <a
+            href="https://ko-fi.com/Kylan1940"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Support on Ko-fi"
+            className="group flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-2 text-white transition hover:border-white/30 hover:bg-white/10"
+          >
+            <Image src="/ko-fi.svg" alt="Ko-fi" width={24} height={24} className="h-6 w-6 shrink-0 object-contain" />
+            <span className="hidden sm:block font-medium">Ko-fi</span>
+          </a>
 
           <a
             href="https://github.com/Kylan1940"

@@ -14,6 +14,7 @@ import PlaceCard from "@/app/components/PlaceCard";
 import DownloadCsvButton from "@/app/components/CSVButton";
 import AdBanner from "@/app/components/AdBanner";
 import AdNative from "@/app/components/AdNative";
+import PrivacyNotice from "@/app/components/PrivacyNotice";
 import en from "./messages/en";
 import id from "./messages/id";
 
@@ -388,6 +389,7 @@ export default function Home() {
           maxResults={maxResults}
           onMaxResultsChange={handleMaxResultsChange}
         />
+        <PrivacyNotice language={language} />
       </div>
 
       <section className="mx-auto max-w-7xl px-5 py-12 md:px-8 md:py-16">
